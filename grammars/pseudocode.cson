@@ -3,15 +3,27 @@
 'fileTypes': ['pseudo']
 'patterns': [
   {
+    'match': 'PRINT|READ|OPEN|SET|GET|TURN|CALCULATE|CLOSE|SEND|CREATE|SHOOT|STEP|INSERT'
+    'name': 'support.function'
+  },
+  {
     'match': '(END)?FOR'
     'name': 'keyword.control'
   },
   {
-    'match': '(END)?WHILE'
+    'match': 'DOWHILE'
     'name': 'keyword.control'
   },
   {
-    'match': '(END)?IF|THEN|ELSE'
+    'match': 'ENDDO|END'
+    'name': 'keyword.control'
+  },
+  {
+    'match': '(END)?IF|THEN|ELSE|NOT'
+    'name': 'keyword.control'
+  },
+  {
+    'match': 'AND|OR'
     'name': 'keyword.control'
   },
   {
@@ -19,7 +31,7 @@
     'name': 'entity.name.function'
   },
   {
-    'match': 'RETURN'
+    'match': 'return(?!\\s*:)\\b'
     'name': 'keyword.control'
   },
   {
@@ -30,17 +42,57 @@
       'match': 'EXTENDS|ABSTRACT'
       'name': 'entity.name.tag'
   },
-
   {
-    'match': 'this'
-    'name': 'support.variable'
-  },
-  {
-    'match': 'print'
+    'match': 'from|into'
     'name': 'support.function'
   },
   {
-    'match': 'string|int|float|map|list|set'
+    'match': 'string|int|float|map|list|set|NULL|false|true'
     'name': 'storage.type'
+   },
+   {
+    'captures':
+      '2':
+        'name': 'entity.name.function'
+    'match': '([\\w_?.$][\\w?.$]*)\\.([\\w_?.$][\\w?.$]*)\\s*'
+    'name': 'meta.function'
+  },
+   {
+    'begin': '(^[ \\t]+)?(?=//)'
+    'beginCaptures':
+      '1':
+        'name': 'punctuation.whitespace.comment.leading'
+    'end': '(?!\\G)'
+    'patterns': [
+      {
+        'begin': '//'
+        'beginCaptures':
+          '0':
+            'name': 'punctuation.definition.comment'
+        'end': '\\n'
+        'name': 'comment.line.double-slash'
+      }
+    ]
+  },
+   {
+     'begin': '/\\*\\*(?!/)'
+     'captures':
+       '0':
+         'name': 'punctuation.definition.comment'
+     'patterns': [
+       {
+         'include': '#docblock'
+       }
+     ]
+     'end': '\\*/'
+     'name': 'comment.block.documentation'
+   },
+   {
+     'begin': '/\\*'
+     'captures':
+       '0':
+         'name': 'punctuation.definition.comment'
+     'end': '\\*/'
+     'name': 'comment.block'
    }
 ]
